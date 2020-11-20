@@ -35,9 +35,9 @@ router
         context.response.body = "Task deleted";
         context.response.status = 200;
     })
-    .get("/styles/:fileName", (context) => {
-        const fileName = context.params.fileName;
-        return send(context, `../frontend/styles/${fileName}`);
+    .get("/styles/:filename", async context => {
+        const filename = context.params.filename;
+        await send(context, `/frontend/styles/${filename}`)
     })
     .get("/", async context => {
         await send(context, context.request.url.pathname, {
