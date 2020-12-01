@@ -4,19 +4,19 @@ let cards = [];
 let id = 0;
 const columns = [
     {
-        id: 1,
+        id: "todo",
         name: 'Todo',
-        color: 'red'
+        color: '#FF3365'
     },
     {
-        id: 2,
+        id: "inprogress",
         name: 'In progress',
-        color: 'blue'
+        color: '#6733FF'
     },
     {
-        id: 3,
+        id: "done",
         name: 'Done',
-        color: 'green'
+        color: '#33CBFF'
     }
 ];
 
@@ -56,9 +56,9 @@ router
         context.response.body = columns;
         context.response.status = 200;
     })
-    .get("/styles/:filename", async context => {
+    .get("/static/:filename", async context => {
         const filename = context.params.filename;
-        await send(context, `/frontend/styles/${filename}`)
+        await send(context, `/frontend/${filename}`)
     })
     .get("/", async context => {
         await send(context, context.request.url.pathname, {
