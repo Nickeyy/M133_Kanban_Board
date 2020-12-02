@@ -16,7 +16,7 @@ async function createColumns() {
 
     columns.forEach(element => {
         html = `
-        <div class="column" id="${element.id}">
+        <div class="column" id="${element.id}" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
             <h1 class="title" style="background-color: ${element.color}">${element.name}</h1>
             <ul class="list" id="${element.id + "list"}"></ul>
             <form class="form hidden card" id="${element.id + "form"}">
@@ -26,7 +26,7 @@ async function createColumns() {
                     <button class="submitButton" type="submit">save</button>
                     <button class="clearButton" type="reset">cancel</button>
             </form>
-            <button class="createButton" id="${element.id + "createButton"}" "type="button">+</button>
+            <button class="createButton" id="${element.id + "createButton"}" "type="button">&#43;</button>
         </div>
         `;
         container.innerHTML += html;
@@ -57,11 +57,8 @@ async function createColumns() {
 
         element.addEventListener("submit", (e) => {
             e.preventDefault();
-            new FormData(element);
+            let data = new FormData(element);
             element.reset();
-        })
-        element.addEventListener('formdata', (e) => {
-            let data = e.formData;
             let card = {
                 status: data.get("id"),
                 value: data.get("cardValue")
@@ -90,7 +87,7 @@ async function getTasks() {
     cards.forEach(element => {
         let list = document.querySelector(`#${element.status + "list"}`);
         html = `
-        <li class="card" id="${element.id}">
+        <li class="card" id="${element.id}" draggable="true" ondragstart="handleDragStart(event)">
             <p>${element.value}</p>
             <button class="moveLeft" type"button">&lt;</button>
             <button class="deleteButton" type"button">🗑</button>
@@ -172,4 +169,26 @@ async function deleteTask(id) {
         },
     });
     getTasks();
+}
+
+function handleDragStart(e) {
+    e.dataTransfer.setData('id', e.target.id);
+}
+
+function handleDragOver(e) {
+    e.preventDefault()
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    let cardId = e.dataTransfer.getData("id");
+
+    let target = e.target;
+    while(!(columns.find(column => column.id == target.id))) {
+        target = target.parentElement;
+    }
+
+    let card = cards.find(card => card.id == cardId);
+    card.status = target.id;
+    updateTask(card);
 }
