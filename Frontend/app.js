@@ -92,9 +92,9 @@ async function getTasks() {
         html = `
         <li class="card" id="${element.id}">
             <p>${element.value}</p>
-            <button class="moveLeft" type"button"><<<</button>
+            <button class="moveLeft" type"button">&lt;</button>
             <button class="deleteButton" type"button">🗑</button>
-            <button class="moveRight" type"button">>>></button>
+            <button class="moveRight" type"button">&gt;</button>
         </li>
         `;
         list.innerHTML += html;
