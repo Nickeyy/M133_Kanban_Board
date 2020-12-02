@@ -33,3 +33,20 @@ body {
   text-align: center;
   cursor: move;
 }
+
+.createButton{
+    margin-left: 50%;
+    margin-top: 20px;
+}
+
+.list{
+    padding: 0;
+    margin: 0%;
+}
+
+.form{
+}
+
+.hidden{
+    display: none;
+}
